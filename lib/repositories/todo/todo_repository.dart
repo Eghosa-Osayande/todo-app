@@ -3,6 +3,7 @@
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:todo/repositories/todo/models/task_model.dart';
 import 'package:todo/repositories/todo/queries/queries.dart';
+import 'package:todo/utils/debug_print.dart';
 
 class TodoRepositoryException implements Exception {}
 
@@ -35,9 +36,10 @@ class TodoRepository {
         variables: {
           "developer_id": _developerId,
         },
-         fetchPolicy: FetchPolicy.noCache,
+        //  fetchPolicy: FetchPolicy.noCache,
       ),
     );
+    out(result.data);
     if (result.hasException) throw TodoRepositoryException;
 
     List tasks = result.data?['tasks'];

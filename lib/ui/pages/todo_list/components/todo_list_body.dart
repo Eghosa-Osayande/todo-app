@@ -26,9 +26,9 @@ class TodoListBody extends StatelessWidget {
         ),
         body: BlocBuilder<TaskListBloc, TaskListState>(
             builder: (context, state) {
-              print(state);
+              
           if (state is TaskListLoadInProgress) {
-            print('progress');
+            
             return const Center(
               child: CircularProgressIndicator(),
             );
