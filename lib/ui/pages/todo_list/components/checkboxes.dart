@@ -36,7 +36,7 @@ class CheckBoxGood extends StatelessWidget {
         borderRadius: BorderRadius.all(
           Radius.circular(6),
         ),
-        color: Colors.green,
+        color: Color.fromRGBO(0, 145, 32, 1),
       ),
       child: Center(
         child: Icon(
