@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todo/routes.dart';
+import 'package:todo/theme.dart';
 import 'package:todo/ui/pages/todo_list/todo_list_page.dart';
 
 class MyApp extends StatelessWidget {
@@ -11,7 +12,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.deepPurple,
+        primarySwatch: generateMaterialColor(const Color.fromRGBO(116, 45, 221, 1),),
       ),
       routes: Routes.routes,
       initialRoute: TodoListPage.name,
