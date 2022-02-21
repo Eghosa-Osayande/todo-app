@@ -36,7 +36,7 @@ class TodoRepository {
         variables: {
           "developer_id": _developerId,
         },
-        //  fetchPolicy: FetchPolicy.noCache,
+         fetchPolicy: FetchPolicy.noCache,
       ),
     );
     out(result.data);
