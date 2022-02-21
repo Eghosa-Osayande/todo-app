@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:todo/blocs/tasks_list/task_list_bloc.dart';
 import 'package:todo/repositories/todo/models/task_model.dart';
 import 'package:todo/repositories/todo/todo_repository.dart';
@@ -41,21 +42,46 @@ class TaskItemTile extends StatelessWidget {
               child: Center(
                 child: Text(
                   tagText,
-                  style: TextStyle(color: textColor),
+                  style:TextStyle(fontFamily: 'hel',color: textColor, fontSize: 14),
                 ),
               ),
             ),
-            SizedBox(width: 14,),
+            SizedBox(
+              width: 14,
+            ),
             Expanded(
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('data'),
-                Text('data'),
+                Text(
+                  '${task.title}',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                  style: TextStyle(fontFamily: 'hel',
+                    fontWeight: FontWeight.w500,
+                    fontSize: 14,
+                    color: Color.fromRGBO(6, 5, 27, 1),
+                    decoration: (task.isCompleted
+                        ? TextDecoration.lineThrough
+                        : TextDecoration.none),
+                  ),
+                ),
+                Text(
+                  '${task.description}',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                  style: TextStyle(fontFamily: 'hel',
+                    fontWeight: FontWeight.w400,
+                    fontSize: 12,
+                    color: Color.fromRGBO(167, 166, 180, 1),
+                  ),
+                ),
               ],
             )),
-            SizedBox(width: 14,),
+            SizedBox(
+              width: 14,
+            ),
             CheckBoxGood(),
           ],
         ));
