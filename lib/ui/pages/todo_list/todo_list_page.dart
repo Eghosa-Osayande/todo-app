@@ -15,8 +15,8 @@ class TodoListPage extends StatelessWidget {
       create: (_) => TaskListBloc(
         todoRepository: TodoRepository.create(),
       )
-      // ..add(TaskFetchStarted
-      // ())
+      ..add(TaskFetchStarted
+      ())
       ,
       child: const TodoListBody(),
     );
