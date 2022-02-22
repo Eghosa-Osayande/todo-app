@@ -9,7 +9,6 @@ class Routes{
 
  static Map<String, Widget Function(BuildContext)> routes ={
     TodoListPage.name: (_)=> TodoListPage(),
-    TodoDetailPage.name:  (_)=> TodoDetailPage(),
   };
 
 
