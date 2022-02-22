@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:todo/blocs/create_task/bloc.dart';
+import 'package:todo/blocs/delete_task/bloc.dart';
 import 'package:todo/blocs/tasks_list/bloc.dart';
 import 'package:todo/repositories/todo/models/task_model.dart';
 import 'package:todo/ui/pages/todo_detail/todo_detail_page.dart';
 import 'package:todo/ui/pages/todo_list/components/task_item_tile.dart';
 import 'package:todo/ui/widgets/black_safe_area.dart';
 import 'package:todo/ui/widgets/retry_widget.dart';
+import 'package:todo/ui/widgets/task_form.dart';
 
 class TodoListBody extends StatelessWidget {
   const TodoListBody({
@@ -29,13 +32,40 @@ class TodoListBody extends StatelessWidget {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
-            // context.read<TaskListBloc>().add(
-            //       TaskFetchStarted(),
-            //     );
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => TodoDetailPage(type: TodoDetailPageType.create,),
+                builder: (context) =>
+                    BlocListener<CreateTaskBloc, CreateTaskState>(
+                  listener: (context, state) {
+                    if (state is CreateTaskSuccess) {
+                      Navigator.of(context).pop();
+                      BlocProvider.of<TaskListBloc>(context)
+                          .add(TaskFetchStarted());
+                    }
+                    if (state is CreateTaskFailure) {
+                      showDialog(
+                        context: context,
+                        builder: (_) => const AlertDialog(
+                          title: Text("Something went wrong, could't save task"),
+                        ),
+                      );
+                    }
+                  },
+                  child: TodoDetailPage(
+                    type: TodoDetailPageType.create,
+                    onSave: () async {
+                      context.read<CreateTaskBloc>().add(
+                            CreateTaskStarted(
+                              TaskModel.createEmpty(
+                                TaskForm.formData['title'],
+                                TaskForm.formData['description'],
+                              ),
+                            ),
+                          );
+                    },
+                  ),
+                ),
               ),
             );
           },

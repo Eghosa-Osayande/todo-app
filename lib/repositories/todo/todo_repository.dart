@@ -36,7 +36,7 @@ class TodoRepository {
         variables: {
           "developer_id": _developerId,
         },
-         fetchPolicy: FetchPolicy.noCache,
+        fetchPolicy: FetchPolicy.noCache,
       ),
     );
     out(result.data);
@@ -67,9 +67,7 @@ class TodoRepository {
   }
 
   Future insertTask(
-    {required String title,
-    required String description}
-  ) async {
+      {required String title, required String description}) async {
     final result = await _graphQLClient.query(
       QueryOptions(document: gql(TodoQueries.insertTask), variables: {
         "developer_id": _developerId,
@@ -80,11 +78,21 @@ class TodoRepository {
     return result;
   }
 
-  Future updateTask() async {
+  Future updateTask({
+    required String id,
+    required String title,
+    required String description,
+    required bool isCompleted,
+  }) async {
     final result = await _graphQLClient.query(
-      QueryOptions(
-          document: gql(TodoQueries.getAllTasks),
-          variables: {"developer_id": _developerId}),
+      QueryOptions(document: gql(TodoQueries.updateTask), variables: {
+        "id": id,
+        "payload": {
+          "isCompleted": isCompleted,
+          "title": title,
+          "description": description
+        }
+      }),
     );
     return result.data?['update_tasks_by_pk'];
   }

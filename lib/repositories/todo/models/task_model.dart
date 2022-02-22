@@ -40,13 +40,13 @@ class TaskModel {
         updatedAt: DateTime.parse(json["updated_at"]),
     );
 
-     factory TaskModel.createEmpty()=> TaskModel(
+     factory TaskModel.createEmpty(title, description)=> TaskModel(
         id: '',
         developerId: '',
-        description: '',
+        description: description,
         createdAt: DateTime.now(),
         isCompleted: false,
-        title: '',
+        title: title,
         updatedAt: DateTime.now(),
     );
 

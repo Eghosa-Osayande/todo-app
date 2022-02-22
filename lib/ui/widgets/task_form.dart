@@ -2,6 +2,8 @@
 // prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo/blocs/create_task/bloc.dart';
 import 'package:todo/ui/widgets/default_spinners.dart';
 import 'package:todo/ui/widgets/disable_widget.dart';
 import 'package:todo/utils/debug_print.dart';
@@ -14,6 +16,7 @@ class TaskForm extends StatefulWidget {
   Function? onSave;
   String title;
   String description;
+  static Map formData = {};
 
   @override
   State<TaskForm> createState() => _TaskFormState();
@@ -21,7 +24,7 @@ class TaskForm extends StatefulWidget {
 
 class _TaskFormState extends State<TaskForm> {
   GlobalKey<FormState> taskFormKey = GlobalKey<FormState>();
-  bool isLoading = false;
+
   @override
   Widget build(BuildContext context) {
     var commonStyle = TextStyle(
@@ -129,50 +132,60 @@ class _TaskFormState extends State<TaskForm> {
             SizedBox(
               height: 24,
             ),
-            DisableWidget(
-              disable: isLoading,
-              child: Opacity(
-                opacity: (widget.title.trim().isEmpty ||
-                    widget.description.trim().isEmpty)?0.5:1,
-                child: Material(
-                  color: Color.fromRGBO(116, 45, 221, 1),
-                  borderRadius: BorderRadius.circular(8),
-                  child: InkWell(
+            BlocBuilder<CreateTaskBloc, CreateTaskState>(
+                builder: (context, state) {
+              bool isLoading = state is CreateTaskInProgress;
+              return DisableWidget(
+                disable: isLoading,
+                child: Opacity(
+                  opacity: (widget.title.trim().isEmpty ||
+                          widget.description.trim().isEmpty)
+                      ? 0.5
+                      : 1,
+                  child: Material(
+                    color: Color.fromRGBO(116, 45, 221, 1),
                     borderRadius: BorderRadius.circular(8),
-                    onTap: () async {
-                      if (taskFormKey.currentState?.validate() ?? false) {
-                        KeyboardUtil.hideKeyboard(context);
-                        setState(() {
-                          isLoading = true;
-                        });
-                        try {
-                          await Future.delayed(Duration(seconds: 3));
-                        } finally {
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(8),
+                      onTap: () async {
+                        if (taskFormKey.currentState?.validate() ?? false) {
+                          TaskForm.formData = {
+                            "title": widget.title,
+                            "description": widget.description,
+                          };
+                          KeyboardUtil.hideKeyboard(context);
                           setState(() {
-                            isLoading = false;
+                            isLoading = true;
                           });
+                          try {
+                            await widget.onSave!();
+                          } finally {
+                            setState(() {
+                              isLoading = false;
+                            });
+                          }
                         }
-                      }
-                    },
-                    child: Container(
-                      height: 48,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Center(
-                        child: isLoading
-                            ? buildDefaultSpinner()
-                            : Text(
-                                'Save',
-                                style: commonStyle.copyWith(
-                                    fontSize: 18, color: Colors.white),
-                              ),
+                      },
+                      child: Container(
+                        height: 48,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Center(
+                          child: isLoading
+                              ? buildDefaultSpinner()
+                              : Text(
+                                  'Save',
+                                  style: commonStyle.copyWith(
+                                      fontSize: 18, color: Colors.white),
+                                ),
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            ),
+              );
+            }),
             SizedBox(
               height: 100,
             ),

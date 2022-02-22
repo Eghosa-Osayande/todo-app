@@ -4,9 +4,15 @@ part of 'bloc.dart';
 abstract class CreateTaskEvent extends Equatable {}
 
 class CreateTaskStarted extends CreateTaskEvent {
-  String title;
-  String description;
-  CreateTaskStarted({required this.title, required this.description});
+  TaskModel task;
+  CreateTaskStarted(this.task);
+  @override
+  List<Object> get props => [];
+}
+
+class UpdateTaskStarted extends CreateTaskEvent {
+  TaskModel task;
+  UpdateTaskStarted(this.task);
   @override
   List<Object> get props => [];
 }

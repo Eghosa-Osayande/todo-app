@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:todo/blocs/create_task/bloc.dart';
 import 'package:todo/blocs/tasks_list/bloc.dart';
 import 'package:todo/repositories/todo/models/task_model.dart';
 import 'package:todo/repositories/todo/todo_repository.dart';
 import 'package:todo/ui/pages/todo_detail/todo_detail_page.dart';
 import 'package:todo/ui/pages/todo_list/components/checkboxes.dart';
 import 'package:todo/ui/pages/todo_list/components/todo_list_body.dart';
+import 'package:todo/ui/widgets/task_form.dart';
 
 class TaskItemTile extends StatelessWidget {
   final TaskModel task;
@@ -34,11 +36,38 @@ class TaskItemTile extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => TodoDetailPage(
-                    type: TodoDetailPageType.update,
-                    description: task.description,
-                    title: task.title,
-
+                  builder: (context) =>
+                      BlocListener<CreateTaskBloc, CreateTaskState>(
+                    listener: (context, state) {
+                      if (state is CreateTaskSuccess) {
+                        Navigator.of(context).pop();
+                        BlocProvider.of<TaskListBloc>(context)
+                            .add(TaskFetchStarted());
+                      }
+                      if (state is CreateTaskFailure) {
+                        showDialog(
+                          context: context,
+                          builder: (_) => const AlertDialog(
+                            title:
+                                Text("Something went wrong, could't save task"),
+                          ),
+                        );
+                      }
+                    },
+                    child: TodoDetailPage(
+                      type: TodoDetailPageType.update,
+                      description: task.description,
+                      title: task.title,
+                      onSave: () async {
+                        task
+                          ..description = TaskForm.formData['description']
+                          ..title = TaskForm.formData['title'];
+                          print(task.id);
+                        context.read<CreateTaskBloc>().add(
+                              UpdateTaskStarted(task),
+                            );
+                      },
+                    ),
                   ),
                 ),
               );
