@@ -35,7 +35,7 @@ class TodoListBody extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => TodoDetailPage(),
+                builder: (context) => TodoDetailPage(type: TodoDetailPageType.create,),
               ),
             );
           },

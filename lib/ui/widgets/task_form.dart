@@ -53,12 +53,14 @@ class _TaskFormState extends State<TaskForm> {
           SizedBox(
             height: 8,
           ),
-          TextField(
+          TextFormField(
+            initialValue: widget.title,
             onChanged: (String v) {
               setState(() {
                 widget.title = v;
               });
             },
+            
             decoration: InputDecoration(
               hintText: 'What do you want to do?',
               hintStyle: commonStyle.copyWith(
@@ -91,7 +93,8 @@ class _TaskFormState extends State<TaskForm> {
           SizedBox(
             height: 8,
           ),
-          TextField(
+          TextFormField(
+            initialValue: widget.description,
             onChanged: (String v) {
               setState(() {
                 widget.description = v;
