@@ -40,6 +40,16 @@ class TaskModel {
         updatedAt: DateTime.parse(json["updated_at"]),
     );
 
+     factory TaskModel.createEmpty()=> TaskModel(
+        id: '',
+        developerId: '',
+        description: '',
+        createdAt: DateTime.now(),
+        isCompleted: false,
+        title: '',
+        updatedAt: DateTime.now(),
+    );
+
     Map<String, dynamic> toJson() => {
         "id": id,
         "developer_id": developerId,
