@@ -1,7 +1,7 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:todo/blocs/tasks_list/task_list_bloc.dart';
+import 'package:todo/blocs/tasks_list/bloc.dart';
 import 'package:todo/repositories/todo/todo_repository.dart';
 // import 'package:test/expect.dart';
 

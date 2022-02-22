@@ -67,16 +67,17 @@ class TodoRepository {
   }
 
   Future insertTask(
-    String id,
+    {required String title,
+    required String description}
   ) async {
     final result = await _graphQLClient.query(
-      QueryOptions(document: gql(TodoQueries.getAllTasks), variables: {
+      QueryOptions(document: gql(TodoQueries.insertTask), variables: {
         "developer_id": _developerId,
-        "title": "TITLE",
-        "description": "DESCRIPTION"
+        "title": title,
+        "description": description,
       }),
     );
-    return result.data?['tasks'];
+    return result;
   }
 
   Future updateTask() async {

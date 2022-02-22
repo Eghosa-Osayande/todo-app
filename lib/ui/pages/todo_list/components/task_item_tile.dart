@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:todo/blocs/tasks_list/task_list_bloc.dart';
+import 'package:todo/blocs/tasks_list/bloc.dart';
 import 'package:todo/repositories/todo/models/task_model.dart';
 import 'package:todo/repositories/todo/todo_repository.dart';
 import 'package:todo/ui/pages/todo_detail/todo_detail_page.dart';
@@ -38,7 +38,7 @@ class TaskItemTile extends StatelessWidget {
                     type: TodoDetailPageType.update,
                     description: task.description,
                     title: task.title,
-                    
+
                   ),
                 ),
               );
