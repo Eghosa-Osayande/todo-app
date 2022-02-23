@@ -61,6 +61,8 @@ class _TaskFormState extends State<TaskForm> {
             ),
             TextFormField(
               initialValue: widget.title,
+              keyboardType: TextInputType.text,
+              textCapitalization: TextCapitalization.sentences,
               validator: (v) {
                 if (v!.trim().isEmpty) {
                   return 'This field is required';
@@ -105,6 +107,8 @@ class _TaskFormState extends State<TaskForm> {
             ),
             TextFormField(
               initialValue: widget.description,
+              keyboardType: TextInputType.text,
+              textCapitalization: TextCapitalization.sentences,
               validator: (v) {
                 if (v!.trim().isEmpty) {
                   return 'This field is required';
