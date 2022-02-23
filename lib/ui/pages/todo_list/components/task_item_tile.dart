@@ -67,7 +67,6 @@ class TaskItemTile extends StatelessWidget {
                       task
                         ..description = TaskForm.formData['description']
                         ..title = TaskForm.formData['title'];
-                      print(task.id);
                       context.read<CreateTaskBloc>().add(
                             UpdateTaskStarted(task),
                           );
@@ -122,6 +121,7 @@ class TaskItemTile extends StatelessWidget {
                             : TextDecoration.none),
                       ),
                     ),
+                    SizedBox(height:7),
                     Text(
                       '${task.description}',
                       overflow: TextOverflow.ellipsis,
