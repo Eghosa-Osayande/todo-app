@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo/blocs/create_task/bloc.dart';
 import 'package:todo/blocs/delete_task/bloc.dart';
 import 'package:todo/blocs/tasks_list/bloc.dart';
+import 'package:todo/blocs/toggle_completed/bloc.dart';
 import 'package:todo/repositories/todo/models/task_model.dart';
 import 'package:todo/repositories/todo/todo_repository.dart';
 import 'package:todo/routes.dart';
@@ -30,6 +31,11 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<DeleteTaskBloc>(
           create: (_) => DeleteTaskBloc(
+            todoRepository: todoRepository,
+          ),
+        ),
+        BlocProvider<ToggleCompletedBloc>(
+          create: (_) => ToggleCompletedBloc(
             todoRepository: todoRepository,
           ),
         ),

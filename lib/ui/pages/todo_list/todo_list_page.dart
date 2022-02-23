@@ -45,7 +45,9 @@ class TodoListPage extends StatelessWidget {
                       showDialog(
                         context: context,
                         builder: (_) => const AlertDialog(
-                          title: Text("Something went wrong, could't save task"),
+                          title:
+                              Text("Something went wrong"),
+                              content: Text("Couldn't update task"),
                         ),
                       );
                     }
@@ -88,7 +90,7 @@ class TodoListPage extends StatelessWidget {
                             style: TextStyle(
                                 fontFamily: 'circular',
                                 fontSize: 24,
-                                fontWeight: FontWeight.w400),
+                                fontWeight: FontWeight.w400,),
                           ),
                         ],
                       ),
@@ -115,6 +117,7 @@ class TodoListPage extends StatelessWidget {
                             bottom:
                                 (index == (state.tasks.length - 1)) ? 100 : 0),
                         child: TaskItemTile(
+                          key: ValueKey(state.tasks[index].id),
                             task: state.tasks[index], index: 1 + index),
                       );
                     });

@@ -10,7 +10,7 @@ class TodoRepositoryException implements Exception {}
 class TodoRepository {
   final GraphQLClient _graphQLClient;
 
-  final String _developerId = "UNIQUE ID FOR YOUR APP";
+  final String _developerId = "We fly to thy patronage";
 
   const TodoRepository({required GraphQLClient graphQLClient})
       : _graphQLClient = graphQLClient;
@@ -53,7 +53,10 @@ class TodoRepository {
   Future getSingleTask(String id) async {
     final result = await _graphQLClient.query(
       QueryOptions(
-          document: gql(TodoQueries.getSingleTask), variables: {"id": id}),
+        document: gql(TodoQueries.getSingleTask),
+        variables: {"id": id},
+        fetchPolicy: FetchPolicy.noCache,
+      ),
     );
     return result.data?['tasks_by_pk'];
   }
@@ -61,7 +64,10 @@ class TodoRepository {
   Future deleteTask(String id) async {
     final result = await _graphQLClient.query(
       QueryOptions(
-          document: gql(TodoQueries.deleteTask), variables: {"id": id}),
+        document: gql(TodoQueries.deleteTask),
+        variables: {"id": id},
+        fetchPolicy: FetchPolicy.noCache,
+      ),
     );
     out(result.data);
     if (result.hasException) throw TodoRepositoryException;
@@ -71,11 +77,15 @@ class TodoRepository {
   Future insertTask(
       {required String title, required String description}) async {
     final result = await _graphQLClient.query(
-      QueryOptions(document: gql(TodoQueries.insertTask), variables: {
-        "developer_id": _developerId,
-        "title": title,
-        "description": description,
-      }),
+      QueryOptions(
+        document: gql(TodoQueries.insertTask),
+        variables: {
+          "developer_id": _developerId,
+          "title": title,
+          "description": description,
+        },
+        fetchPolicy: FetchPolicy.noCache,
+      ),
     );
     out(result.data);
     if (result.hasException) throw TodoRepositoryException;
@@ -89,14 +99,18 @@ class TodoRepository {
     required bool isCompleted,
   }) async {
     final result = await _graphQLClient.query(
-      QueryOptions(document: gql(TodoQueries.updateTask), variables: {
-        "id": id,
-        "payload": {
-          "isCompleted": isCompleted,
-          "title": title,
-          "description": description
-        }
-      }),
+      QueryOptions(
+        document: gql(TodoQueries.updateTask),
+        variables: {
+          "id": id,
+          "payload": {
+            "isCompleted": isCompleted,
+            "title": title,
+            "description": description
+          }
+        },
+        fetchPolicy: FetchPolicy.noCache,
+      ),
     );
     out(result.data);
     if (result.hasException) throw TodoRepositoryException;

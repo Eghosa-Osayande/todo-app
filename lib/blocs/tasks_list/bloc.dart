@@ -12,6 +12,7 @@ class TaskListBloc extends Bloc<TaskListEvent, TaskListState> {
       : _todoRepository = todoRepository,
         super(TaskListLoadInProgress()) {
     on<TaskFetchStarted>(_onTaskFetchStarted);
+     on<DidUpdateListEvent>(_onDidUpdateListEvent);
   }
 
   final TodoRepository _todoRepository;
@@ -29,8 +30,21 @@ class TaskListBloc extends Bloc<TaskListEvent, TaskListState> {
       emit(TaskListLoadFailure());
     }
   }
+void _onDidUpdateListEvent(
+    DidUpdateListEvent event,
+    Emitter<TaskListState> emit,
+  ) async {
+    emit(TaskListLoadInProgress());
+    try {
+      
+      var tasks = _sortTasks(event.tasks);
+      emit(TaskListLoadSuccess(tasks));
+    } catch (_) {
+      emit(TaskListLoadFailure());
+    }
+  }
 
-  _sortTasks(List<TaskModel> tasks) {
+ List<TaskModel> _sortTasks(List<TaskModel> tasks) {
     List<TaskModel> completedTasks = [];
     List<TaskModel> inCompletedTasks = [];
     while (tasks.isNotEmpty) {

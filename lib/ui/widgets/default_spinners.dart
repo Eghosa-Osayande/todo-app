@@ -8,3 +8,12 @@ Widget buildDefaultSpinner() {
     ),
   );
 }
+
+Widget buildToggleSpinner() {
+  return Center(
+    child: CircularProgressIndicator(
+      strokeWidth: 1,
+      color: Colors.white,
+    ),
+  );
+}

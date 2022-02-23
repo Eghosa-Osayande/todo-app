@@ -70,7 +70,7 @@ class _TaskFormState extends State<TaskForm> {
                 setState(() {
                   widget.title = v;
                 });
-              },
+              },textInputAction: TextInputAction.next,
               decoration: InputDecoration(
                 hintText: 'What do you want to do?',
                 hintStyle: commonStyle.copyWith(
