@@ -10,12 +10,12 @@ class TodoRepositoryException implements Exception {}
 class TodoRepository {
   final GraphQLClient _graphQLClient;
 
-  final String _developerId = "We fly to thy patronage";
+  final String developerId ;
 
-  const TodoRepository({required GraphQLClient graphQLClient})
+  const TodoRepository({required GraphQLClient graphQLClient,this.developerId="We fly to thy patronage"})
       : _graphQLClient = graphQLClient;
 
-  factory TodoRepository.create() {
+  factory TodoRepository.create([developerId="We fly to thy patronage"]) {
     final httpLink = HttpLink(
         'https://todolistassessment.hasura.app/v1/graphql',
         defaultHeaders: {
@@ -25,7 +25,7 @@ class TodoRepository {
         });
     final link = Link.from([httpLink]);
     return TodoRepository(
-      graphQLClient: GraphQLClient(cache: GraphQLCache(), link: link),
+      graphQLClient: GraphQLClient(cache: GraphQLCache(), link: link),developerId: developerId,
     );
   }
 
@@ -34,7 +34,7 @@ class TodoRepository {
       QueryOptions(
         document: gql(TodoQueries.getAllTasks),
         variables: {
-          "developer_id": _developerId,
+          "developer_id": developerId,
         },
         fetchPolicy: FetchPolicy.noCache,
       ),
@@ -80,7 +80,7 @@ class TodoRepository {
       QueryOptions(
         document: gql(TodoQueries.insertTask),
         variables: {
-          "developer_id": _developerId,
+          "developer_id": developerId,
           "title": title,
           "description": description,
         },
@@ -89,7 +89,7 @@ class TodoRepository {
     );
     out(result.data);
     if (result.hasException) throw TodoRepositoryException;
-    return result;
+    return result.data?['insert_tasks_one'];
   }
 
   Future updateTask({

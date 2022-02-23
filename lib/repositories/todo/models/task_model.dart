@@ -28,7 +28,7 @@ class TaskModel {
 
     factory TaskModel.fromRawJson(String str) => TaskModel.fromJson(json.decode(str));
 
-    String toRawJson() => json.encode(toJson());
+    // String toRawJson() => json.encode(toJson());
 
     factory TaskModel.fromJson(Map<String, dynamic> json) => TaskModel(
         id: json["id"],
@@ -50,13 +50,13 @@ class TaskModel {
         updatedAt: DateTime.now(),
     );
 
-    Map<String, dynamic> toJson() => {
-        "id": id,
-        "developer_id": developerId,
-        "description": description,
-        "created_at": createdAt.toIso8601String(),
-        "isCompleted": isCompleted,
-        "title": title,
-        "updated_at": updatedAt.toIso8601String(),
-    };
+    // Map<String, dynamic> toJson() => {
+    //     "id": id,
+    //     "developer_id": developerId,
+    //     "description": description,
+    //     "created_at": createdAt.toIso8601String(),
+    //     "isCompleted": isCompleted,
+    //     "title": title,
+    //     "updated_at": updatedAt.toIso8601String(),
+    // };
 }
