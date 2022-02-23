@@ -7,7 +7,6 @@ import 'package:todo/repositories/todo/models/task_model.dart';
 import 'package:todo/repositories/todo/todo_repository.dart';
 import 'package:todo/ui/pages/todo_detail/todo_detail_page.dart';
 import 'package:todo/ui/pages/todo_list/components/checkboxes.dart';
-import 'package:todo/ui/pages/todo_list/components/todo_list_body.dart';
 import 'package:todo/ui/widgets/task_form.dart';
 
 class TaskItemTile extends StatelessWidget {
@@ -49,7 +48,10 @@ class TaskItemTile extends StatelessWidget {
                           context: context,
                           builder: (_) => const AlertDialog(
                             title:
-                                Text("Something went wrong, could't save task"),
+                                Text("Something went wrong"),
+                            content: Text("Task was not saved"), 
+
+
                           ),
                         );
                       }
@@ -58,6 +60,7 @@ class TaskItemTile extends StatelessWidget {
                       type: TodoDetailPageType.update,
                       description: task.description,
                       title: task.title,
+                      id: task.id,
                       onSave: () async {
                         task
                           ..description = TaskForm.formData['description']

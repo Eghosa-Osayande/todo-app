@@ -61,8 +61,10 @@ class TodoRepository {
   Future deleteTask(String id) async {
     final result = await _graphQLClient.query(
       QueryOptions(
-          document: gql(TodoQueries.getAllTasks), variables: {"id": id}),
+          document: gql(TodoQueries.deleteTask), variables: {"id": id}),
     );
+    out(result.data);
+    if (result.hasException) throw TodoRepositoryException;
     return result.data?['delete_tasks_by_pk'];
   }
 
@@ -75,6 +77,8 @@ class TodoRepository {
         "description": description,
       }),
     );
+    out(result.data);
+    if (result.hasException) throw TodoRepositoryException;
     return result;
   }
 
@@ -94,6 +98,8 @@ class TodoRepository {
         }
       }),
     );
+    out(result.data);
+    if (result.hasException) throw TodoRepositoryException;
     return result.data?['update_tasks_by_pk'];
   }
 }

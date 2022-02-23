@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo/ui/pages/todo_detail/components/delete_task_button.dart';
 import 'package:todo/ui/widgets/black_safe_area.dart';
 import 'package:todo/ui/widgets/close_keyboard.dart';
 import 'package:todo/ui/widgets/task_form.dart';
@@ -11,6 +12,7 @@ class TodoDetailPage extends StatelessWidget {
       this.onSave,
       this.description = '',
       this.title = '',
+      this.id = '',
       required this.type})
       : super(key: key);
 
@@ -18,6 +20,7 @@ class TodoDetailPage extends StatelessWidget {
   Function? onSave;
   String title;
   String description;
+  String id;
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +29,11 @@ class TodoDetailPage extends StatelessWidget {
         child: Scaffold(
           appBar: AppBar(
             centerTitle: false,
+            actions: (type != TodoDetailPageType.create)
+                ? [
+                    DeleteTaskButton(id: id),
+                  ]
+                : [],
             title: Text(
               (type == TodoDetailPageType.create)
                   ? 'Create Task'
